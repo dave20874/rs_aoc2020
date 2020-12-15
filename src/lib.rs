@@ -1,8 +1,10 @@
 mod report_repair;
 mod password_philosophy;
+mod toboggan_trajectory;
 
 use report_repair::ReportRepair;
 use password_philosophy::PasswordPhilosophy;
+use toboggan_trajectory::TobogganTrajectory;
 
 pub trait Day {
     // fn load(filename: &str) -> &dyn Day;
@@ -11,9 +13,10 @@ pub trait Day {
 }
 
 pub fn run() {
-    let days: [&dyn Day; 2] = [
+    let days: [&dyn Day; 3] = [
         &ReportRepair::load("data/day1_input.txt"),
         &PasswordPhilosophy::load("data/day2_input.txt"),
+        &TobogganTrajectory::load("data/day3_input.txt"),
     ];
 
     for (n, day) in days.iter().enumerate()

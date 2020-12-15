@@ -62,7 +62,7 @@ impl PasswordPhilosophy {
 
         for line in reader.lines() {
             let line = line.unwrap();
-            let entry = PasswordPhilosophy::process_line(&line.as_str());
+            let entry = Self::process_line(&line.as_str());
             password_db.entries.push(entry);
         }
 
