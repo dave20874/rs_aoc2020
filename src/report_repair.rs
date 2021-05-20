@@ -32,8 +32,8 @@ impl ReportRepair {
 
 impl super::Day for ReportRepair {
     fn part1(&self) -> Result<i64, &str> {
-        for n in 0..self.entries.len()-1 {
-            for m in n+1..self.entries.len() {
+        for n in 0..self.entries.len() - 1 {
+            for m in n + 1..self.entries.len() {
                 let sum = self.entries[n] + self.entries[m];
                 if sum == 2020 {
                     return Ok(self.entries[n] * self.entries[m]);
@@ -51,6 +51,26 @@ impl super::Day for ReportRepair {
             }
         }
         return Err("No result found");
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::Day;
+
+        #[test]
+    fn test_part1() {
+        let rr = &ReportRepair::load("data/day1_input.txt");
+
+        assert_eq!(rr.part1(), Result::Ok(444019));
+    }
+
+    #[test]
+    fn test_part2() {
+        let rr = &ReportRepair::load("data/day1_input.txt");
+
+        assert_eq!(rr.part2(), Result::Ok(29212176));
     }
 }
 

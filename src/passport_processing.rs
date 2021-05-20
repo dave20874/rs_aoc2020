@@ -223,3 +223,24 @@ impl super::Day for PassportProcessor {
         return Ok(valid);
     }
 }
+
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::Day;
+
+    #[test]
+    fn test_part1() {
+        let tt = &PassportProcessor::load("data/day4_input.txt");
+
+        assert_eq!(tt.part1(), Result::Ok(235));
+    }
+
+    #[test]
+    fn test_part2() {
+        let tt = &PassportProcessor::load("data/day4_input.txt");
+
+        assert_eq!(tt.part2(), Result::Ok(194));
+    }
+}

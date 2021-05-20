@@ -61,3 +61,23 @@ impl super::Day for Boarding {
         return Ok(found as i64);
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::Day;
+
+    #[test]
+    fn test_part1() {
+        let tt = &Boarding::load("data/day5_input.txt");
+
+        assert_eq!(tt.part1(), Result::Ok(901));
+    }
+
+    #[test]
+    fn test_part2() {
+        let tt = &Boarding::load("data/day5_input.txt");
+
+        assert_eq!(tt.part2(), Result::Ok(661));
+    }
+}

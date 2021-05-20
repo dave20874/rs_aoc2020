@@ -124,3 +124,23 @@ impl super::Day for Customs {
         return Ok(sum as i64);
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::Day;
+
+    #[test]
+    fn test_part1() {
+        let tt = &Customs::load("data/day6_input.txt");
+
+        assert_eq!(tt.part1(), Result::Ok(6387));
+    }
+
+    #[test]
+    fn test_part2() {
+        let tt = &Customs::load("data/day6_input.txt");
+
+        assert_eq!(tt.part2(), Result::Ok(3039));
+    }
+}

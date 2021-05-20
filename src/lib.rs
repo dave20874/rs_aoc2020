@@ -5,6 +5,7 @@ mod passport_processing;
 mod binary_boarding;
 mod custom_customs;
 mod handy_haversacks;
+mod handheld_halting;
 
 use report_repair::ReportRepair;
 use password_philosophy::PasswordPhilosophy;
@@ -13,6 +14,9 @@ use passport_processing::PassportProcessor;
 use binary_boarding::Boarding;
 use custom_customs::Customs;
 use handy_haversacks::Haversacks;
+use handheld_halting::Halting;
+
+// use crate::ReportRepair;
 
 pub trait Day {
     // fn load(filename: &str) -> &dyn Day;
@@ -21,7 +25,8 @@ pub trait Day {
 }
 
 pub fn run(n: Option<usize>) {
-    let days: [&dyn Day; 7] = [
+    // Create array of days.  Each entry references a Day.
+    let days: [&dyn Day; 8] = [
         &ReportRepair::load("data/day1_input.txt"),
         &PasswordPhilosophy::load("data/day2_input.txt"),
         &TobogganTrajectory::load("data/day3_input.txt"),
@@ -29,10 +34,12 @@ pub fn run(n: Option<usize>) {
         &Boarding::load("data/day5_input.txt"),
         &Customs::load("data/day6_input.txt"),
         &Haversacks::load("data/day7_input.txt"),
+        &Halting::load("data/day8_input.txt"),
     ];
 
     match n {
         Some(day_no) => {
+            // Run for one day.
             match days[day_no-1].part1() {
                 Ok(val) => println!("Day {}, part 1: {}", day_no, val),
                 Err(_) => println!("Day {}, part 1: No result found.", day_no),
@@ -44,6 +51,7 @@ pub fn run(n: Option<usize>) {
             }
         }
         None => {
+            // Run for all days.
             for (n, day) in days.iter().enumerate()
             {
                 let day_no = n+1;

@@ -113,3 +113,24 @@ impl super::Day for Haversacks {
         return Ok(self.num_within("shiny gold"));
     }
 }
+
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::Day;
+
+    #[test]
+    fn test_part1() {
+        let tt = &Haversacks::load("data/day7_input.txt");
+
+        assert_eq!(tt.part1(), Result::Ok(300));
+    }
+
+    #[test]
+    fn test_part2() {
+        let tt = &Haversacks::load("data/day7_input.txt");
+
+        assert_eq!(tt.part2(), Result::Ok(8030));
+    }
+}

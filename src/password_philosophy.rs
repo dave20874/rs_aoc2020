@@ -95,3 +95,24 @@ impl super::Day for PasswordPhilosophy {
         return Ok(valid_entries);
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::Day;
+
+    #[test]
+    fn test_pp_part1() {
+        let pp = &PasswordPhilosophy::load("data/day2_input.txt");
+
+        assert_eq!(pp.part1(), Result::Ok(625));
+    }
+
+    #[test]
+    fn test_pp_part2() {
+        let pp = &PasswordPhilosophy::load("data/day2_input.txt");
+
+        assert_eq!(pp.part2(), Result::Ok(391));
+    }
+}
+

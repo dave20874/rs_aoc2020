@@ -3,7 +3,6 @@ use std::io::{BufRead, BufReader};
 use std::collections::HashMap;
 use rusttype::Point;
 
-
 pub struct TobogganTrajectory {
     // If a point is in the map, it has a tree.  All entries store the value true.
     trees: HashMap<Point<u32>, bool>,
@@ -82,5 +81,25 @@ impl super::Day for TobogganTrajectory {
             ];
 
         return Ok(slopes.iter().map(|slope| self.tree_hits(slope)).product());
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::Day;
+
+    #[test]
+    fn test_part1() {
+        let tt = &TobogganTrajectory::load("data/day3_input.txt");
+
+        assert_eq!(tt.part1(), Result::Ok(286));
+    }
+
+    #[test]
+    fn test_part2() {
+        let tt = &TobogganTrajectory::load("data/day3_input.txt");
+
+        assert_eq!(tt.part2(), Result::Ok(3638606400));
     }
 }
