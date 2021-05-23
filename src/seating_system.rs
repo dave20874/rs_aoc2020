@@ -38,32 +38,15 @@ impl SeatingSystem {
         return SeatingSystem { dim_x: max_x+1, dim_y: max_y+1, seats: seats };
     }
 
-    fn occupied_neighbors(&self, occupied: &Array2D<bool>, location: (usize, usize), dist: i32) -> i32 {
-        let offsets: [(i32, i32); 8] = [
-            (-1, -1), (0, -1), (1, -1),
-            (-1,  0),          (1,  0),
-            (-1,  1), (0,  1), (1,  1)
-        ];
+    fn occupied_neighbors(&self, occupied: &Array2D<bool>, neighbors: &Vec<(i32, i32)>) -> i32 {
         let mut count = 0;
 
-        for offset in offsets.iter() {
-            for distance in 1..dist+1 {
-                // println!("Dist: {}", distance);
-                let x = location.0 as i32 + distance*offset.0;
-                let y = location.1 as i32 + distance*offset.1;
-
-                if self.seats.contains_key(&(x, y)) {
-                    let coord = (x as usize, y as usize);
-
-                    if occupied[coord] {
-                        count += 1;
-                    }
-                    break;  // we're done with this direction
-                }
+        for neighbor in neighbors {
+            if occupied[(neighbor.0 as usize, neighbor.1 as usize)] {
+                count += 1;
             }
         }
 
-        // println!("Seat {},{} has {} neighbors.", location.0, location.1, count);
         return count;
     }
 
@@ -88,6 +71,39 @@ impl SeatingSystem {
         }
     }
 
+    // Compute a HashMap that maps seats to a vector of neighboring seats.
+    fn compute_neighbors(&self, dist: i32) -> HashMap<(i32, i32), Vec<(i32, i32)>> {
+        let directions: [(i32, i32); 8] = [
+            (-1, -1), (0, -1), (1, -1),
+            (-1,  0),          (1,  0),
+            (-1,  1), (0,  1), (1,  1)
+        ];
+
+        let mut neighbors: HashMap<(i32, i32), Vec<(i32, i32)>> = HashMap::new();
+
+        for location in self.seats.keys() {
+            let mut seat_neighbors: Vec<(i32, i32)> = Vec::new();
+
+            for dir in directions.iter() {
+                for distance in 1..dist+1 {
+                    // println!("Dist: {}", distance);
+                    let x = location.0 as i32 + distance*dir.0;
+                    let y = location.1 as i32 + distance*dir.1;
+
+                    if self.seats.contains_key(&(x, y)) {
+                        // We found the neighboring seat in this direction.
+                        seat_neighbors.push((x, y));
+                        break;
+                    }
+                }
+            }
+
+            neighbors.insert(*location, seat_neighbors);
+        }
+
+        return neighbors;
+    }
+
     fn final_occupied(&self, thresh: i32, dist: i32) -> i32 {
         let mut changed = true;
         let mut a: Array2D<bool> = Array2D::filled_with(false, self.dim_x as usize, self.dim_y as usize);
@@ -98,14 +114,17 @@ impl SeatingSystem {
 
         // println!("Part 1");
 
+        // Compute a map of which seats are neighbors of others.
+        let neighbors: HashMap<(i32, i32), Vec<(i32, i32)>> = self.compute_neighbors(dist);
+
         while changed {
             changed = false;
 
             // Swap before and after arrays
+            a_before = !a_before;
+
             let before: &mut Array2D<bool>;
             let after: &mut Array2D<bool>;
-
-            a_before = !a_before;
             if a_before {
                 before = &mut a;
                 after = &mut b;
@@ -123,13 +142,14 @@ impl SeatingSystem {
 
                 // count occupied neighbors of this chair.
                 // println!("Evaluating seat {} {}", x, y);
-                let neighbors = self.occupied_neighbors(&before, coord, dist);
+                let num_neighbors = self.occupied_neighbors(&before, &neighbors[&(*x, *y)]);
 
-                if neighbors == 0 {
+                // Apply the rules to update occupancy.
+                if num_neighbors == 0 {
                     // seat becomes occupied
                     after[coord] = true;
                 }
-                else if neighbors >= thresh {
+                else if num_neighbors >= thresh {
                     // seat becomes unoccupied
                     after[coord] = false;
                 }
@@ -138,6 +158,7 @@ impl SeatingSystem {
                     after[coord] = before[coord]
                 }
 
+                // Count total seats occupied in after state.
                 if after[coord] {
                     num_occupied += 1;
                 }
