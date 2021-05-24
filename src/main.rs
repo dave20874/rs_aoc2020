@@ -10,6 +10,7 @@ mod encoding_error;
 mod adapter_array;
 mod seating_system;
 mod rain_risk;
+mod shuttle_search;
 
 use report_repair::ReportRepair;
 use password_philosophy::PasswordPhilosophy;
@@ -23,6 +24,7 @@ use encoding_error::EncodingError;
 use adapter_array::AdapterArray;
 use seating_system::SeatingSystem;
 use rain_risk::RainRisk;
+use shuttle_search::ShuttleSearch;
 
 pub trait Day {
     // fn load(filename: &str) -> &dyn Day;
@@ -32,7 +34,7 @@ pub trait Day {
 
 pub fn run(n: Option<usize>) {
     // Create array of days.  Each entry references a Day.
-    let days: [&dyn Day; 12]= [
+    let days: [&dyn Day; 13]= [
         &ReportRepair::load("data/day1_input.txt"),
         &PasswordPhilosophy::load("data/day2_input.txt"),
         &TobogganTrajectory::load("data/day3_input.txt"),
@@ -45,6 +47,7 @@ pub fn run(n: Option<usize>) {
         &AdapterArray::load("data/day10_input.txt"),
         &SeatingSystem::load("data/day11_input.txt"),
         &RainRisk::load("data/day12_input.txt"),
+        &ShuttleSearch::load("data/day13_input.txt"),
     ];
 
     match n {
