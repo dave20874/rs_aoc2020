@@ -12,6 +12,7 @@ mod seating_system;
 mod rain_risk;
 mod shuttle_search;
 mod docking_data;
+mod rambunctious_recitation;
 
 use report_repair::ReportRepair;
 use password_philosophy::PasswordPhilosophy;
@@ -27,6 +28,7 @@ use seating_system::SeatingSystem;
 use rain_risk::RainRisk;
 use shuttle_search::ShuttleSearch;
 use docking_data::DockingData;
+use rambunctious_recitation::Recitation;
 
 pub trait Day {
     // fn load(filename: &str) -> &dyn Day;
@@ -36,7 +38,7 @@ pub trait Day {
 
 pub fn run(n: Option<usize>) {
     // Create array of days.  Each entry references a Day.
-    let days: [&dyn Day; 14]= [
+    let days: [&dyn Day; 15]= [
         &ReportRepair::load("data/day1_input.txt"),
         &PasswordPhilosophy::load("data/day2_input.txt"),
         &TobogganTrajectory::load("data/day3_input.txt"),
@@ -51,6 +53,7 @@ pub fn run(n: Option<usize>) {
         &RainRisk::load("data/day12_input.txt"),
         &ShuttleSearch::load("data/day13_input.txt"),
         &DockingData::load("data/day14_input.txt"),
+        &Recitation::load("data/day15_input.txt"),
     ];
 
     match n {
