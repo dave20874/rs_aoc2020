@@ -13,6 +13,7 @@ mod rain_risk;
 mod shuttle_search;
 mod docking_data;
 mod rambunctious_recitation;
+mod ticket_translation;
 
 use report_repair::ReportRepair;
 use password_philosophy::PasswordPhilosophy;
@@ -29,6 +30,7 @@ use rain_risk::RainRisk;
 use shuttle_search::ShuttleSearch;
 use docking_data::DockingData;
 use rambunctious_recitation::Recitation;
+use ticket_translation::TicketTranslation;
 
 pub trait Day {
     // fn load(filename: &str) -> &dyn Day;
@@ -38,7 +40,7 @@ pub trait Day {
 
 pub fn run(n: Option<usize>) {
     // Create array of days.  Each entry references a Day.
-    let days: [&dyn Day; 15]= [
+    let days: [&dyn Day; 16] = [
         &ReportRepair::load("data/day1_input.txt"),
         &PasswordPhilosophy::load("data/day2_input.txt"),
         &TobogganTrajectory::load("data/day3_input.txt"),
@@ -54,6 +56,7 @@ pub fn run(n: Option<usize>) {
         &ShuttleSearch::load("data/day13_input.txt"),
         &DockingData::load("data/day14_input.txt"),
         &Recitation::load("data/day15_input.txt"),
+        &TicketTranslation::load("data/day16_input.txt"),
     ];
 
     match n {
@@ -92,5 +95,5 @@ pub fn run(n: Option<usize>) {
 fn main() {
     println!("Advent of Code 2020.");
 
-    run(None);
+    run(Some(16));
 }
