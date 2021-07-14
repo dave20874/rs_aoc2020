@@ -196,7 +196,7 @@ impl TicketTranslation {
         for n in 0..self.my_ticket.values.len() {
             // Determine which rules are always consistent for field n.
             for (fieldname, rule) in &self.fields {
-/// TODO - pick up here.
+// TODO - pick up here.
             }
         }
 
@@ -234,6 +234,7 @@ impl TicketTranslation {
         }
         */
 
+        /*
         // Multiply all the fields of my ticket starting with "departure"
         let mut product: i64 = 1;
         for n in 0..self.my_ticket.values.len() {
@@ -242,6 +243,9 @@ impl TicketTranslation {
             }
         }
         return product;
+        */
+
+        return 0;
     }
 }
 
@@ -287,6 +291,6 @@ mod tests {
     #[test]
     fn test_part2() {
         let tt = TicketTranslation::load("data/day16_input.txt");
-        assert_eq!(tt.part1(), Ok(1265347500049));
+        assert_eq!(tt.part2(), Ok(1265347500049));
     }
 }

@@ -95,5 +95,5 @@ pub fn run(n: Option<usize>) {
 fn main() {
     println!("Advent of Code 2020.");
 
-    run(Some(16));
+    run(None);
 }

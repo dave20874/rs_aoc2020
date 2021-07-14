@@ -2,10 +2,9 @@ use std::fs::File;
 use std::io::{BufRead, BufReader};
 use lazy_static::lazy_static;
 use regex::Regex;
-use std::collections::HashMap;
 
 pub struct Recitation {
-    initial: Vec<i64>,
+    initial: Vec<usize>,
 }
 
 impl Recitation {
@@ -28,34 +27,36 @@ impl Recitation {
         return Recitation { initial: numbers};
     }
 
-    fn nth_said(&self, nth: i64) -> i64 {
-                let mut round_last_said: HashMap<i64, i64> = HashMap::new();
-        let mut round: i64 = 0;
-        let mut say_next: i64 = 0;
+    fn nth_said(&self, nth: usize) -> usize{
+        let mut round_last_said: Vec<usize> = vec![0;100000000];
+        let mut round: usize = 0;
+        let mut say_next: usize = 0;
 
         // Say the initial numbers
         for n in &self.initial {
             round += 1;
-            if !round_last_said.contains_key(n) {
+            let last_round = round_last_said[*n];
+            if last_round == 0 {
                 say_next = 0;
             }
             else {
-                say_next = round - round_last_said.get(n).unwrap();
+                say_next = round - last_round;
             }
-            round_last_said.insert(*n, round);
+            round_last_said[*n] = round;
         }
 
         // Say remaining numbers up to limit
         while round < nth-1 {
             round += 1;
             let say = say_next;
-            if !round_last_said.contains_key(&say) {
+            let last_round = round_last_said[say_next];
+            if last_round == 0 {
                 say_next = 0;
             }
             else {
-                say_next = round - round_last_said.get(&say).unwrap();
+                say_next = round - last_round;
             }
-            round_last_said.insert(say, round);
+            round_last_said[say] = round;
         }
 
         return say_next;
@@ -64,11 +65,11 @@ impl Recitation {
 
 impl super::Day for Recitation {
     fn part1(&self) -> Result<i64, &str> {
-        return Ok(self.nth_said(2020));
+        return Ok(self.nth_said(2020) as i64);
     }
 
     fn part2(&self) -> Result<i64, &str> {
-        return Ok(self.nth_said(30000000));
+        return Ok(self.nth_said(30000000) as i64);
     }
 }
 
